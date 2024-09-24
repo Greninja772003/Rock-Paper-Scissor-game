@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Let's Play</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+    <div id="header">
+        <h1>ROCK PAPER SCISSORS</h1>
+    </div>
+
+    <div id="center">
+        <div class="declare">
+            <h2>Score</h2>
+        </div>
+        <div id="profiles">
+            <div id="user">
+                <div class="userImage">
+                    <img width="10vh" src="https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_640.png"
+                        alt="userImage">
+                    <p>YOU</p>
+                </div>
+                <div class="userScore"></div>
+            </div>
+            <div id="machine">
+                <div class="machineScore"></div>
+                <div class="machineImage">
+                    <img src="https://cdn.pixabay.com/photo/2019/11/03/09/37/cockpit-4598192_640.jpg"
+                        alt="machineImage">
+                    <p>MACHINE</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="tools">
+            <p>
+            <h3>Select one:</h3>
+            </p>
+            <div id="options">
+                <img class="rock" src="https://cdn.pixabay.com/photo/2020/06/29/09/09/rock-5352025_640.jpg" alt="rock">
+                <img class="paper" src="https://cdn.pixabay.com/photo/2018/03/06/17/40/paper-3204064_640.jpg"
+                    alt="paper">
+                <img class="scissor" src="https://cdn.pixabay.com/photo/2013/04/22/01/18/scissor-106377_640.jpg"
+                    alt="scissor">
+            </div>
+        </div>
+
+        <div class="newGame"><button>New Game</button></div>
+    </div>
+
+</body>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #212121;
+        color: white;
+        display: flex;
+        flex-direction: column;
+    }
+    .userScore, .machineScore {
+        font-size: 2rem;
+    }
+
+    #header {
+        text-align: center;
+        padding: 20px;
+        border-bottom: white 2px solid;
+    }
+
+    #profiles img {
+        width: 10vh;
+        height: 10vh;
+    }
+
+    img {
+        width: 15vh;
+        height: 15vh;
+    }
+
+    #center {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        height: 80vh;
+    }
+
+    #profiles {
+        display: flex;
+
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        height: 10vh;
+    }
+
+    #user {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: space-around;
+        width: 30%;
+    }
+
+    #machine {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: space-around;
+        width: 30%;
+    }
+
+    #tools {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        flex-direction: column;
+
+    }
+
+    #options {
+
+        display: flex;
+        justify-content: space-evenly;
+
+        align-items: center;
+        width: 100%;
+
+    }
+</style>
+<script>
+    const declaration = document.querySelector('.declare')
+    const userScore = document.querySelector('.userScore');
+    const machineScore = document.querySelector('.machineScore');
+    const rock = document.querySelector('.rock');
+    const paper = document.querySelector('.paper');
+    const scissor = document.querySelector('.scissor');
+    const newGame = document.querySelector('.newGame');
+    console.log('user score', userScore);
+    console.log('machine score', machineScore);
+    let playGame = true;
+    let userPoints = 0;
+    let machinePoints = 0;
+    function handleRockClick() {
+        console.log('Rock clicked');
+        // Your logic for rock click
+        gameStarted('rock');
+    }
+
+    function handlePaperClick() {
+        console.log('Paper clicked');
+        // Your logic for paper click
+        gameStarted('paper');
+    }
+
+    function handleScissorClick() {
+        console.log('Scissor clicked');
+        // Your logic for scissor click
+        gameStarted('scissor');
+    }
+    if (playGame==true) {
+        rock.addEventListener('click', handleRockClick)
+        paper.addEventListener('click', handlePaperClick)
+        scissor.addEventListener('click', handleScissorClick)
+    }
+    function gameStarted(optionSelected) {
+        let userSelect = optionSelected;
+        let machineSelect = Math.floor(Math.random() * 100 + 1);
+        console.log(machineSelect);
+        if (machineSelect <= 33) {
+            machineSelect = 'rock';
+        } else if (machineSelect > 33 && machineSelect <= 66) {
+            machineSelect = 'paper'
+        } else { machineSelect = 'scissor' }
+        checkCondition(userSelect, machineSelect);
+        console.log('gameStarted function working');
+    }
+    function declareUpdate() {
+        declaration.innerHTML = 'Score';
+    }
+    function checkCondition(userSelect, machineSelect) {
+        console.log('checkCondition function working');
+
+        if (userSelect == 'rock' && machineSelect == 'scissor') {
+            userPoints++;
+            userScore.innerHTML = userPoints;
+        } else if (userSelect == 'rock' && machineSelect == 'paper') {
+            machinePoints++;
+            machineScore.innerHTML = machinePoints;
+        } else if (userSelect == 'rock' && machineSelect == 'rock') {
+            declaration.innerHTML = `Both selected ${userSelect}`;
+            setTimeout(declareUpdate, 1000);
+        }
+        if (userSelect == 'paper' && machineSelect == 'rock') {
+            userPoints++;
+            userScore.innerHTML = userPoints;
+        } else if (userSelect == 'paper' && machineSelect == 'scissor') {
+            machinePoints++;
+            machineScore.innerHTML = machinePoints;
+        } else if (userSelect == 'paper' && machineSelect == 'paper') {
+            declaration.innerHTML = `Both selected ${userSelect}`
+            setTimeout(declareUpdate, 1000);
+        }
+        if (userSelect == 'scissor' && machineSelect == 'paper') {
+            userPoints++;
+            userScore.innerHTML = userPoints;
+        } else if (userSelect == 'scissor' && machineSelect == 'rock') {
+            machinePoints++;
+            machineScore.innerHTML = machinePoints;
+        } else if (userSelect == 'scissor' && machineSelect == 'scissor') {
+            declaration.innerHTML = `Both selected ${userSelect}`
+            setTimeout(declareUpdate, 1000);
+        }
+
+
+        if (userPoints == 5 || machinePoints == 5) {
+            if (userPoints == 5) { declaration.innerHTML = 'You won the game'; }
+            else { declaration.innerHTML = 'Machine won the game'; }
+            endGame();
+        }
+    }
+    function endGame() {
+        console.log('Game Finish')
+        playGame = false;
+        userPoints = 0;
+        machinePoints = 0;
+        userScore.innerHTML = 0;
+        machineScore.innerHTML = 0;
+
+        rock.removeEventListener('click',handleRockClick);
+        paper.removeEventListener('click',handlePaperClick);
+        scissor.removeEventListener('click',handleScissorClick);
+        restartGame();
+    }
+    function restartGame() {
+        newGame.addEventListener('click', (e) => {
+            playGame = true;
+            declaration.innerHTML = 'Score';
+             // Re-add event listeners
+            rock.addEventListener('click', handleRockClick);
+            paper.addEventListener('click', handlePaperClick);
+            scissor.addEventListener('click', handleScissorClick);
+            console.log('Game restarted');
+        })
+    }
+</script>
+
+</html>
